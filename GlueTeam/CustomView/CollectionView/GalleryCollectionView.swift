@@ -8,13 +8,12 @@
 import UIKit
 import Photos
 
-class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class GalleryCollectionView: UIViewController {
+    //MARK: - Private propeties
     private var assets: [PHAsset] = []
-    private let itemSize: Int = 20
+    private let pageSize: Int = 50
     private var currentPage: Int = 1
-    private var albums: PHAssetCollection?
     private var collectionView: UICollectionView!
-    private var panGestureRecognizer: UIPanGestureRecognizer?
     private var indexPathSelected: [IndexPath] = [] {
         didSet {
             navigationItem.rightBarButtonItem?.title = isSelectMode ?
@@ -34,43 +33,16 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
-    private func showOption() {
-        let assetsAction: [PHAsset] = indexPathSelected.compactMap({ assets[$0.item] })
-        var img: [UIImage] = []
-        let dispathGroup = DispatchGroup()
-        var enter = 0
-        var out = 0
-        LoadingManager.shared.show()
-        assetsAction.forEach { asset in
-            dispathGroup.enter()
-            enter += 1
-            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
-                out += 1
-                if out <= enter {
-                    dispathGroup.leave()
-                    if let image = image {
-                        img.append(image)
-                    }
-                }
-            }
-        }
-        dispathGroup.notify(queue: .main) {
-            LoadingManager.shared.hide()
-            let activity = UIActivityViewController(activityItems: img, applicationActivities: nil)
-            activity.completionWithItemsHandler = { (activity, success, items, error) in
-                if success {
-                    self.isSelectMode = false
-                }
-            }
-            self.present(activity, animated: true)
-        }
-        
-    }
-    
+    //MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigation()
         setupCollectionView()
         fetchGallery()
+    }
+    
+    // MARK: - Private method
+    private func setupNavigation() {
         title = "Like Glue"
         let rightBarButtonItem = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(selectAction))
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -78,7 +50,7 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
     
     @objc private func selectAction() {
         if !indexPathSelected.isEmpty {
-            showOption()
+            sharedSelectedAsset()
             return
         }
         isSelectMode = !isSelectMode
@@ -97,7 +69,7 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PhotoCollectionCell.nib, forCellWithReuseIdentifier: PhotoCollectionCell.kIdentifier)
-        self.view.addSubview(collectionView)
+        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -116,21 +88,88 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
                 let collection = PHAssetCollection.fetchAssetCollections(with: .album,
                                                                          subtype: .any,
                                                                          options: fetchOptions)
-                self.albums = collection[0]
-                let results = PHAsset.fetchAssets(in: self.albums!, options: nil)
+                guard let albums = collection.firstObject else { return }
+                let results = PHAsset.fetchAssets(in: albums, options: nil)
                 results.enumerateObjects({ asset, index, stop in
                     self.assets.append(asset)
                 })
                 main_queue {
                     self.collectionView.reloadData()
                 }
+            } else {
+                main_queue {
+                    let alert = UIAlertController(title: "Oops!", message: "PHPhotoLibrary requestAuthorization denied", preferredStyle: .alert)
+                    let cancelaction = UIAlertAction(title: "Cancel", style: .cancel)
+                    let action = UIAlertAction(title: "Settings", style: .default) { _ in
+                        guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else { return }
+                        UIApplication.shared.open(url)
+                    }
+                    alert.addAction(action)
+                    alert.addAction(cancelaction)
+                    self.present(alert, animated: true)
+                }
             }
         }
     }
     
+
+    private func selectedModeDidChanged(for indexPath: IndexPath) -> (Int, IndexPath)? {
+        if let firstIndex = indexPathSelected.firstIndex(of: indexPath) {
+            let removed = indexPathSelected.remove(at: firstIndex)
+            return (firstIndex, removed)
+        }
+        indexPathSelected.append(indexPath)
+        return nil
+    }
     
+    private func getIndex(indexPath: IndexPath) -> Int {
+        if let first = indexPathSelected.firstIndex(of: indexPath) {
+            return first + 1
+        }
+        return 0
+    }
+    private func cellSelected(indexPath: IndexPath) -> Int? {
+        return indexPathSelected.firstIndex(of: indexPath)
+    }
+    
+    private func sharedSelectedAsset() {
+        let assetsAction: [PHAsset] = indexPathSelected.compactMap({ assets[$0.item] })
+        var img: [UIImage] = []
+        let dispathGroup = DispatchGroup()
+        var enter = 0
+        var leave = 0
+        LoadingManager.shared.show()
+        assetsAction.forEach { asset in
+            dispathGroup.enter()
+            enter += 1
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
+                leave += 1
+                if leave <= enter {
+                    dispathGroup.leave()
+                    if let image = image {
+                        img.append(image)
+                    }
+                }
+            }
+        }
+        dispathGroup.notify(queue: .main) {
+            LoadingManager.shared.hide()
+            let activity = UIActivityViewController(activityItems: img, applicationActivities: nil)
+            activity.completionWithItemsHandler = { (_, success, _, _) in
+                if success {
+                    self.isSelectMode = false
+                }
+            }
+            self.present(activity, animated: true)
+        }
+        
+    }
+    
+}
+
+extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return min(assets.count, currentPage * 50)
+        return min(assets.count, currentPage * pageSize)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -140,16 +179,14 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         }
         let asset = assets[indexPath.item]
         let localIdentifier = asset.localIdentifier
-        cell.localIdentifier = localIdentifier
-        cell.selectView.isHidden = !isSelectMode
         let isCellSelected = cellSelected(indexPath: indexPath) != nil
-        if isCellSelected {
-            cell.photoText.text = "\(getIndex(indexPath: indexPath))"
-        }
-        cell.selectView.backgroundColor = isCellSelected ? .black.withAlphaComponent(0.6) : .clear
+        cell.bind(localIdentifier: localIdentifier,
+                  isSelectMode: isSelectMode,
+                  isCellSelected: isCellSelected,
+                  selectedText: isCellSelected ? "\(getIndex(indexPath: indexPath))" : "")
         cell.onSelectAction = { [weak self] in
             guard let self = self else { return }
-            if let removeIndexPath = self.append(indexPath: indexPath) {
+            if let removeIndexPath = self.selectedModeDidChanged(for: indexPath) {
                 var indexPaths: [IndexPath] = [indexPath]
                 for i in removeIndexPath.0..<self.indexPathSelected.count {
                     indexPaths.append(self.indexPathSelected[i])
@@ -173,37 +210,15 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         print("didSelectItemAt")
     }
     
-    
-    private func append(indexPath: IndexPath) -> (Int, IndexPath)? {
-        if let firstIndex = indexPathSelected.firstIndex(of: indexPath) {
-            let removed = indexPathSelected.remove(at: firstIndex)
-            return (firstIndex, removed)
-        } else {
-            indexPathSelected.append(indexPath)
-            return nil
-        }
-    }
-    
-    private func getIndex(indexPath: IndexPath) -> Int {
-        if let first = indexPathSelected.firstIndex(of: indexPath) {
-            return first + 1
-        }
-        return 0
-    }
-    private func cellSelected(indexPath: IndexPath) -> Int? {
-        return indexPathSelected.firstIndex(of: indexPath)
-    }
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
             currentPage += 1
-            if currentPage * 50 > assets.count {
+            if currentPage * pageSize > assets.count {
                 return
             }
             collectionView.reloadData()
         }
     }
-    
 }
 
 

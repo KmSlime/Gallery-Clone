@@ -36,6 +36,13 @@ class PhotoCollectionCell: UICollectionViewCell {
         selectView.isHidden = true
         photoText.text = nil
     }
+    
+    func bind(localIdentifier: String, isSelectMode: Bool, isCellSelected: Bool, selectedText: String) {
+        self.localIdentifier = localIdentifier
+        selectView.isHidden = !isSelectMode
+        photoText.text = selectedText
+        selectView.backgroundColor = isCellSelected ? .black.withAlphaComponent(0.6) : .clear
+    }
 
     @IBAction func onSelectAction(_ sender: Any) {
         onSelectAction?()
