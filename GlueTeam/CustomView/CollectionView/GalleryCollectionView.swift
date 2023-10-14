@@ -66,7 +66,7 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         }
         
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -169,11 +169,6 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelectItemAt")
-    }
-    
-    
     private func append(indexPath: IndexPath) -> (Int, IndexPath)? {
         if let firstIndex = indexPathSelected.firstIndex(of: indexPath) {
             let removed = indexPathSelected.remove(at: firstIndex)
@@ -204,6 +199,10 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DetailPhotoViewController()
+        vc.beginIndex = indexPath
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
-
-

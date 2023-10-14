@@ -16,7 +16,7 @@ class PhotoCell: UICollectionViewCell {
         self.autoresizesSubviews = true
         
         imageView.frame = self.bounds
-        imageView.contentMode = .scaleAspectFill
+//        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(imageView)

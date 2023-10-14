@@ -33,3 +33,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationC
 extension AppDelegate {
     
 }
+
+
+enum Device {
+    static let widthBasedOnDesign: CGFloat =  375.0
+    static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+    static let screenHeight: CGFloat = UIScreen.main.bounds.size.height
+    static let systemVersion = Float(UIDevice.current.systemVersion) ?? 12.0
+    static let displayScale = screenWidth / widthBasedOnDesign
+    static let deviceType: Int = 1
+}
