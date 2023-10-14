@@ -32,13 +32,13 @@ class ImageLoader {
     }
     
     func load(for asset: PHAsset, targetSize: CGSize, completion: @escaping (UIImage?) -> Void) {
-        if let imgData = image(localIdentifier: asset.localIdentifier) {
-            print("get from cache \(asset.localIdentifier)")
-            main_queue {
-                completion(UIImage(data: imgData as Data))
-            }
-            return
-        }
+//        if let imgData = image(localIdentifier: asset.localIdentifier) {
+//            print("get from cache \(asset.localIdentifier)")
+//            main_queue {
+//                completion(UIImage(data: imgData as Data))
+//            }
+//            return
+//        }
         
         ImageLoader.phManager().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: nil) { [weak self] image, _ in
             guard let self = self, let image = image, let imageData = image.jpegData(compressionQuality: 0.1) else {
