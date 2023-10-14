@@ -32,6 +32,9 @@ class DetailPhotoViewController: UIViewController {
         miniCollectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.kIdentifier)
         mainCollectionView.decelerationRate = .fast
         
+        mainCollectionView.showsHorizontalScrollIndicator = false
+        miniCollectionView.showsHorizontalScrollIndicator = false
+        
         reConfigCollectionViewFlowLayout()
         
         fetchGallery()
@@ -39,8 +42,8 @@ class DetailPhotoViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if let beginIndex = beginIndex {
-            mainCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
-            miniCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
+            mainCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+            miniCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
         }
     }
     
@@ -56,7 +59,6 @@ class DetailPhotoViewController: UIViewController {
                     self.miniCollectionView.reloadData()
                     self.mainCollectionView.reloadData()
                 }
-                
             }
         }
     }
@@ -76,15 +78,13 @@ class DetailPhotoViewController: UIViewController {
 
 extension DetailPhotoViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollView.decelerationRate = .fast
+        guard let selectedIndexPath = selectedIndexPath else { return }
         if scrollView == mainCollectionView {
-            guard let selectedIndexPath = selectedIndexPath else { return }
             miniCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
         } else {
-            for cell in self.miniCollectionView.visibleCells {
-                if let indexPath = mainCollectionView.indexPath(for: cell) {
-                    mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                }
-            }
+            miniCollectionView.decelerationRate = .normal
+            mainCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: false)
         }
     }
 }
