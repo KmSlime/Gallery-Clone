@@ -44,11 +44,9 @@ class GridLayout: UICollectionViewFlowLayout {
             attributes.frame = segmentFrame
             
             cachedAttributes.append(attributes)
-            contentBounds = contentBounds.union(lastFrame)
-            
             currentRow += 1
             lastFrame = segmentFrame
-            
+            contentBounds = contentBounds.union(lastFrame)
             switch style {
             case .oneSt:
                 style = .twoNd

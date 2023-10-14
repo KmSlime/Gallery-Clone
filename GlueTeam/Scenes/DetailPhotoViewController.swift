@@ -8,6 +8,10 @@
 import UIKit
 import Photos
 
+protocol GalleryCollectionViewDelegate: AnyObject {
+    func indexPatchDidChanged(selected: IndexPath)
+}
+
 class DetailPhotoViewController: UIViewController {
     // MARK: - IBOutlets
     
@@ -15,8 +19,13 @@ class DetailPhotoViewController: UIViewController {
     @IBOutlet private weak var miniCollectionView: UICollectionView!
     
     private var assets: [PHAsset] = []
-    private var selectedIndexPath: IndexPath?
-    
+    private var selectedIndexPath: IndexPath? {
+        didSet {
+            guard let selectedIndexPath = selectedIndexPath else { return }
+            galleryDelegate?.indexPatchDidChanged(selected: selectedIndexPath)
+        }
+    }
+    weak var galleryDelegate: GalleryCollectionViewDelegate?
     // MARK: - Overrides
     var beginIndex: IndexPath?
     
@@ -51,7 +60,13 @@ class DetailPhotoViewController: UIViewController {
         PHPhotoLibrary.requestAuthorization { [weak self] status in
             guard let self = self else { return }
             if status == .authorized {
-                let results = PHAsset.fetchAssets(with: .image, options: nil)
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.predicate = NSPredicate(format: "title = %@", "dir_003")
+                let collection = PHAssetCollection.fetchAssetCollections(with: .album,
+                                                                         subtype: .any,
+                                                                         options: fetchOptions)
+                guard let albums = collection.firstObject else { return }
+                let results = PHAsset.fetchAssets(in: albums, options: nil)
                 results.enumerateObjects({ asset, index, stop in
                     self.assets.append(asset)
                 })
@@ -96,7 +111,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
         let asset = assets[indexPath.item]
         if collectionView == mainCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ZoomImageCollectionViewCell", for: indexPath) as? ZoomImageCollectionViewCell else { return UICollectionViewCell() }
-            ImageLoader.loader.load(for: asset, targetSize: PHImageManagerMaximumSize) { loadedImage in
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { loadedImage, _ in
                 if let loadedImage = loadedImage {
                     cell.bind(loadedImage)
                 }
@@ -104,7 +119,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.kIdentifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
-            ImageLoader.loader.load(for: asset, targetSize: PHImageManagerMaximumSize) { loadedImage in
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { loadedImage, _ in
                 if let loadedImage = loadedImage {
                     cell.imageView.image = loadedImage
                 }

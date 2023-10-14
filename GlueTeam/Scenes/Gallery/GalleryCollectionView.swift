@@ -11,8 +11,6 @@ import Photos
 class GalleryCollectionView: UIViewController {
     //MARK: - Private propeties
     private var assets: [PHAsset] = []
-    private let pageSize: Int = 50
-    private var currentPage: Int = 1
     private var collectionView: UICollectionView!
     private var indexPathSelected: [IndexPath] = [] {
         didSet {
@@ -169,7 +167,7 @@ class GalleryCollectionView: UIViewController {
 
 extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return min(assets.count, currentPage * pageSize)
+        return assets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -209,18 +207,15 @@ extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailPhotoViewController()
         vc.beginIndex = indexPath
+        vc.galleryDelegate = self
         navigationController?.pushViewController(vc, animated: true)
 
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-            currentPage += 1
-            if currentPage * pageSize > assets.count {
-                return
-            }
-            collectionView.reloadData()
-        }
+}
+
+extension GalleryCollectionView: GalleryCollectionViewDelegate {
+    func indexPatchDidChanged(selected: IndexPath) {
+        collectionView?.scrollToItem(at: selected, at: .centeredVertically, animated: false)
     }
 }
 
