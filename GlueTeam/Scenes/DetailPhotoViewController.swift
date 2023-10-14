@@ -135,7 +135,12 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        selectedIndexPath = indexPath
+        var tempIndexPath = indexPath
+        if collectionView == miniCollectionView {
+            let itemIndex = Double(indexPath.row) - round(Double(collectionView.visibleCells.count/2))
+            tempIndexPath = IndexPath.init(row: Int(itemIndex), section: 0)
+        }
+        selectedIndexPath = tempIndexPath
     }
 }
 
