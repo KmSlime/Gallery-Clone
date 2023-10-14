@@ -17,26 +17,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="473" height="205"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="robin" translatesAutoresizingMaskIntoConstraints="NO" id="tNb-hA-1p1">
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kAq-0H-XKb" customClass="ImageScrollView" customModule="GlueTeam" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="473" height="205"/>
-                    </imageView>
+                    </scrollView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="tNb-hA-1p1" secondAttribute="bottom" id="Aj9-x8-rv9"/>
-                <constraint firstAttribute="trailing" secondItem="tNb-hA-1p1" secondAttribute="trailing" id="CGD-sM-K1l"/>
-                <constraint firstItem="tNb-hA-1p1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="KbV-ib-jmL"/>
-                <constraint firstItem="tNb-hA-1p1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="czM-dM-sDj"/>
+                <constraint firstItem="kAq-0H-XKb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="2CF-BX-DyL"/>
+                <constraint firstAttribute="trailing" secondItem="kAq-0H-XKb" secondAttribute="trailing" id="S3J-sh-PNP"/>
+                <constraint firstAttribute="bottom" secondItem="kAq-0H-XKb" secondAttribute="bottom" id="ZtO-No-fJq"/>
+                <constraint firstItem="kAq-0H-XKb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oub-nr-aqz"/>
             </constraints>
             <size key="customSize" width="473" height="205"/>
             <connections>
-                <outlet property="imageView" destination="tNb-hA-1p1" id="uHS-1f-YVJ"/>
+                <outlet property="imageScrollView" destination="kAq-0H-XKb" id="uk3-Vs-N10"/>
             </connections>
             <point key="canvasLocation" x="348.85496183206106" y="75"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="robin" width="1600" height="1600"/>
-    </resources>
 </document>

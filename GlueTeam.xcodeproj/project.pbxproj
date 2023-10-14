@@ -10,6 +10,14 @@
 		05D22EC42ADA290D00427906 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D22EC22ADA290D00427906 /* PhotoCell.swift */; };
 		05D22EC52ADA290D00427906 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D22EC32ADA290D00427906 /* GalleryCollectionView.swift */; };
 		05D22EC92ADA29BF00427906 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D22EC82ADA29BF00427906 /* ImageLoader.swift */; };
+		131D93302ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D932E2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.swift */; };
+		131D93312ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 131D932F2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.xib */; };
+		131D93352ADA3C6100D8ACB2 /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D93342ADA3C6100D8ACB2 /* UICollectionViewExtension.swift */; };
+		131D93372ADA3C9500D8ACB2 /* CollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D93362ADA3C9500D8ACB2 /* CollectionProtocol.swift */; };
+		131D93392ADA3CB800D8ACB2 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D93382ADA3CB800D8ACB2 /* UITableViewExtension.swift */; };
+		131D933C2ADA3F0000D8ACB2 /* TestZoomingImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D933A2ADA3F0000D8ACB2 /* TestZoomingImageViewController.swift */; };
+		131D933D2ADA3F0000D8ACB2 /* TestZoomingImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 131D933B2ADA3F0000D8ACB2 /* TestZoomingImageViewController.xib */; };
+		131D933F2ADA4E1A00D8ACB2 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D933E2ADA4E1A00D8ACB2 /* ImageScrollView.swift */; };
 		C2BF9C7C2AD6EFBE0011A5E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF9C7B2AD6EFBE0011A5E6 /* AppDelegate.swift */; };
 		C2BF9C832AD6EFBE0011A5E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2BF9C812AD6EFBE0011A5E6 /* Main.storyboard */; };
 		C2BF9C852AD6EFBF0011A5E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2BF9C842AD6EFBF0011A5E6 /* Assets.xcassets */; };
@@ -51,6 +59,14 @@
 		05D22EC22ADA290D00427906 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		05D22EC32ADA290D00427906 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		05D22EC82ADA29BF00427906 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		131D932E2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		131D932F2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZoomImageCollectionViewCell.xib; sourceTree = "<group>"; };
+		131D93342ADA3C6100D8ACB2 /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
+		131D93362ADA3C9500D8ACB2 /* CollectionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionProtocol.swift; sourceTree = "<group>"; };
+		131D93382ADA3CB800D8ACB2 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		131D933A2ADA3F0000D8ACB2 /* TestZoomingImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestZoomingImageViewController.swift; sourceTree = "<group>"; };
+		131D933B2ADA3F0000D8ACB2 /* TestZoomingImageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestZoomingImageViewController.xib; sourceTree = "<group>"; };
+		131D933E2ADA4E1A00D8ACB2 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		C2BF9C782AD6EFBE0011A5E6 /* GlueTeam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlueTeam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BF9C7B2AD6EFBE0011A5E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2BF9C822AD6EFBE0011A5E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -110,6 +126,18 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		131D932D2ADA365900D8ACB2 /* ZoomImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				131D932E2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.swift */,
+				131D932F2ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.xib */,
+				131D933A2ADA3F0000D8ACB2 /* TestZoomingImageViewController.swift */,
+				131D933B2ADA3F0000D8ACB2 /* TestZoomingImageViewController.xib */,
+				131D933E2ADA4E1A00D8ACB2 /* ImageScrollView.swift */,
+			);
+			path = ZoomImageCell;
+			sourceTree = "<group>";
+		};
 		C2BF9C6F2AD6EFBD0011A5E6 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +157,7 @@
 		C2BF9C7A2AD6EFBE0011A5E6 /* GlueTeam */ = {
 			isa = PBXGroup;
 			children = (
+				131D932D2ADA365900D8ACB2 /* ZoomImageCell */,
 				C2BF9C902AD6F79E0011A5E6 /* Application */,
 				C2BF9C912AD6F7A80011A5E6 /* Common */,
 				C2BF9CB02AD704B40011A5E6 /* CustomView */,
@@ -168,6 +197,7 @@
 				05D22EC82ADA29BF00427906 /* ImageLoader.swift */,
 				C2BF9C9A2AD6FD7B0011A5E6 /* AppConfigurator.swift */,
 				C2BF9C9C2AD6FEBA0011A5E6 /* AppContants.swift */,
+				131D93362ADA3C9500D8ACB2 /* CollectionProtocol.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -233,6 +263,8 @@
 				C2BF9CA62AD6FFEC0011A5E6 /* UITextFieldExtension.swift */,
 				C2BF9CAA2AD7001C0011A5E6 /* UIViewControllerExtension.swift */,
 				C2BF9CA82AD700070011A5E6 /* UIViewExtension.swift */,
+				131D93342ADA3C6100D8ACB2 /* UICollectionViewExtension.swift */,
+				131D93382ADA3CB800D8ACB2 /* UITableViewExtension.swift */,
 			);
 			path = PackageUI;
 			sourceTree = "<group>";
@@ -318,8 +350,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2BF9C882AD6EFBF0011A5E6 /* LaunchScreen.storyboard in Resources */,
+				131D933D2ADA3F0000D8ACB2 /* TestZoomingImageViewController.xib in Resources */,
 				C2BF9C852AD6EFBF0011A5E6 /* Assets.xcassets in Resources */,
 				C2BF9C832AD6EFBE0011A5E6 /* Main.storyboard in Resources */,
+				131D93312ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,21 +365,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2BF9C9B2AD6FD7B0011A5E6 /* AppConfigurator.swift in Sources */,
+				131D93372ADA3C9500D8ACB2 /* CollectionProtocol.swift in Sources */,
 				C2C8C9632AD712D500A51AED /* UIRadioButtonController.swift in Sources */,
 				C2BF9CB92AD705DE0011A5E6 /* BundleExtension.swift in Sources */,
 				C2BF9CA32AD6FFC90011A5E6 /* UIButtonExtension.swift in Sources */,
+				131D93352ADA3C6100D8ACB2 /* UICollectionViewExtension.swift in Sources */,
 				C2BF9CA92AD700070011A5E6 /* UIViewExtension.swift in Sources */,
 				C2BF9CA12AD6FF950011A5E6 /* UIColorExtension.swift in Sources */,
 				C2BF9CBD2AD7067C0011A5E6 /* DateExtension.swift in Sources */,
 				05D22EC92ADA29BF00427906 /* ImageLoader.swift in Sources */,
 				C2BF9CB52AD705440011A5E6 /* UIControlExtension.swift in Sources */,
+				131D93392ADA3CB800D8ACB2 /* UITableViewExtension.swift in Sources */,
 				C2C8C9782AD71E5800A51AED /* APIRouter.swift in Sources */,
 				C2BF9C972AD6F9440011A5E6 /* BaseViewController.swift in Sources */,
+				131D933F2ADA4E1A00D8ACB2 /* ImageScrollView.swift in Sources */,
 				C2C8C9672AD7135700A51AED /* UIGestureRecognizer.swift in Sources */,
 				C2C8C96B2AD7176200A51AED /* PaddingLabel.swift in Sources */,
+				131D93302ADA36AC00D8ACB2 /* ZoomImageCollectionViewCell.swift in Sources */,
 				C2BF9C9F2AD6FF3C0011A5E6 /* StringExtension.swift in Sources */,
 				C2C8C9762AD71E4B00A51AED /* APIRequestManager.swift in Sources */,
 				C2BF9CA72AD6FFEC0011A5E6 /* UITextFieldExtension.swift in Sources */,
+				131D933C2ADA3F0000D8ACB2 /* TestZoomingImageViewController.swift in Sources */,
 				C2BF9C7C2AD6EFBE0011A5E6 /* AppDelegate.swift in Sources */,
 				C2BF9CAB2AD7001C0011A5E6 /* UIViewControllerExtension.swift in Sources */,
 				C2C8C97A2AD71F4400A51AED /* SwiftJson.swift in Sources */,
