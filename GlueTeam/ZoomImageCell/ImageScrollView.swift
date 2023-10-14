@@ -29,6 +29,8 @@ class ImageScrollView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.centerImage()
+        let conditionToDisableScroll = isScrollViewAtMaxRight() || isScrollViewAtMaxLeft()
+        self.isScrollEnabled = !conditionToDisableScroll
     }
     
     func display(_ image: UIImage) {
@@ -75,6 +77,18 @@ class ImageScrollView: UIScrollView {
             frameToCenter.origin.y = 0
         }
         zoomView?.frame = frameToCenter
+    }
+    
+    func isScrollViewAtMaxRight() -> Bool {
+        let offsetX = self.contentOffset.x
+        let contentWidth = self.contentSize.width
+        let scrollViewWidth = self.frame.size.width
+        return offsetX + scrollViewWidth >= contentWidth
+    }
+    
+    func isScrollViewAtMaxLeft() -> Bool {
+        let offsetX = self.contentOffset.x
+        return offsetX <= 0
     }
     
     //MARK: - Handle ZoomTap
