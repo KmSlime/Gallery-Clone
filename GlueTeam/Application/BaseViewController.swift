@@ -10,7 +10,7 @@ import UIKit
 @objcMembers 
 final class BaseViewController: UIViewController {
 
-    static let shared = BaseViewController()
+    static let shared = GalleryCollectionView(collectionViewLayout: UICollectionViewLayout())
 
     override func viewDidLoad() {
         super.viewDidLoad()
