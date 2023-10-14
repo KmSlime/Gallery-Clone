@@ -207,7 +207,10 @@ extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelectItemAt")
+        let vc = DetailPhotoViewController()
+        vc.beginIndex = indexPath
+        navigationController?.pushViewController(vc, animated: true)
+
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
