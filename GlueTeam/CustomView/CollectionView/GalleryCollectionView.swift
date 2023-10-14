@@ -169,6 +169,10 @@ class GalleryCollectionView: UIViewController, UICollectionViewDelegate, UIColle
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("didSelectItemAt")
+    }
+    
     
     private func append(indexPath: IndexPath) -> (Int, IndexPath)? {
         if let firstIndex = indexPathSelected.firstIndex(of: indexPath) {
