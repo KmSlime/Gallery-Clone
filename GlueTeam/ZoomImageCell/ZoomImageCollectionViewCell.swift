@@ -8,7 +8,9 @@
 import UIKit
 
 class ZoomImageCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
-        
+    static let identifier = "ZoomImageCollectionViewCell"
+    static let nibView = UINib(nibName: identifier, bundle: nil)
+    
     @IBOutlet private weak var imageScrollView: ImageScrollView!
     
     override func awakeFromNib() {

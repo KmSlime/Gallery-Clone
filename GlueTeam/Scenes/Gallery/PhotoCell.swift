@@ -10,6 +10,7 @@ import UIKit
 class PhotoCell: UICollectionViewCell {
     static let kIdentifier = "PhotoCell"
     private(set) var imageView = UIImageView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.clipsToBounds = true
@@ -29,5 +30,4 @@ class PhotoCell: UICollectionViewCell {
         super.prepareForReuse()
         imageView.image = nil
     }
-
 }

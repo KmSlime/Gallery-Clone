@@ -11,7 +11,8 @@ protocol Navigator {
     func pushToFlashScreen()
     func pushTo(vc: UIViewController)
     func back()
-    func pushToDetail(with index: IndexPath)
+    func pushToGallery()
+    func pushToDetailPhoto(with index: IndexPath, target: UIViewController?)
 }
 
 
@@ -28,9 +29,17 @@ extension BaseViewController: Navigator {
         navigationController?.popViewController(animated: true)
     }
     
-    func pushToDetail(with index: IndexPath) {
+    func pushToGallery() {
+        let vc = GalleryCollectionView()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushToDetailPhoto(with index: IndexPath, target: UIViewController?) {
         let vc = DetailPhotoViewController()
         vc.beginIndex = index
+        if let target = target, target.isKind(of: GalleryCollectionView.classForCoder()) {
+            vc.galleryDelegate = target as! GalleryCollectionView
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

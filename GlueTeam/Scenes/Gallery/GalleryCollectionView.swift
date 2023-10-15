@@ -78,39 +78,17 @@ class GalleryCollectionView: UIViewController {
     }
     
     private func fetchGallery() {
-        PHPhotoLibrary.requestAuthorization { [weak self] status in
+        PHPhotoLibrary.shared().fetchGallery { [weak self] allImageInGallery in
             guard let self = self else { return }
-            if status == .authorized {
-                let fetchOptions = PHFetchOptions()
-                fetchOptions.predicate = NSPredicate(format: "title = %@", "dir_003")
-                let collection = PHAssetCollection.fetchAssetCollections(with: .album,
-                                                                         subtype: .any,
-                                                                         options: fetchOptions)
-                guard let albums = collection.firstObject else { return }
-                let results = PHAsset.fetchAssets(in: albums, options: nil)
-                results.enumerateObjects({ asset, index, stop in
-                    self.assets.append(asset)
-                })
-                main_queue {
-                    self.collectionView.reloadData()
-                }
-            } else {
-                main_queue {
-                    let alert = UIAlertController(title: "Oops!", message: "PHPhotoLibrary requestAuthorization denied", preferredStyle: .alert)
-                    let cancelaction = UIAlertAction(title: "Cancel", style: .cancel)
-                    let action = UIAlertAction(title: "Settings", style: .default) { _ in
-                        guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else { return }
-                        UIApplication.shared.open(url)
-                    }
-                    alert.addAction(action)
-                    alert.addAction(cancelaction)
-                    self.present(alert, animated: true)
-                }
+            allImageInGallery.enumerateObjects({ asset, index, stop in
+                self.assets.append(asset)
+            })
+            main_queue {
+                self.collectionView.reloadData()
             }
         }
     }
     
-
     private func selectedModeDidChanged(for indexPath: IndexPath) -> (Int, IndexPath)? {
         if let firstIndex = indexPathSelected.firstIndex(of: indexPath) {
             let removed = indexPathSelected.remove(at: firstIndex)
@@ -171,7 +149,7 @@ extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionCell.kIdentifier, for: indexPath) as? PhotoCollectionCell, !assets.isEmpty else {
             preconditionFailure("Failed to load collection view cell")
         }
@@ -200,16 +178,12 @@ extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataS
                 cell.imageView.image = image
             }
         }
-
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailPhotoViewController()
-        vc.beginIndex = indexPath
-        vc.galleryDelegate = self
-        navigationController?.pushViewController(vc, animated: true)
-
+        BaseViewController.shared.pushToDetailPhoto(with: indexPath, target: self)
     }
 }
 
