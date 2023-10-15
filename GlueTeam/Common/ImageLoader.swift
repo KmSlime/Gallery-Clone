@@ -19,8 +19,6 @@ func main_queue(block: (() -> Void)?) {
     }
 }
 
-
-
 class ImageLoader {
     static let loader = ImageLoader()
     private let cachedImages = NSCache<NSString, NSData>()

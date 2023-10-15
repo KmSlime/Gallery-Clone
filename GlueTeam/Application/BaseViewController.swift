@@ -9,13 +9,15 @@ import UIKit
 
 @objcMembers 
 final class BaseViewController: UIViewController {
-
-    static let shared = GalleryCollectionView()
+    static let shared = BaseViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        pushToFlashScreen()
-        view.backgroundColor = .red
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        pushToGallery()
     }
 }
 

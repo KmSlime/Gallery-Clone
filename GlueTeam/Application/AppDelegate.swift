@@ -34,7 +34,6 @@ extension AppDelegate {
     
 }
 
-
 enum Device {
     static let widthBasedOnDesign: CGFloat =  375.0
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
