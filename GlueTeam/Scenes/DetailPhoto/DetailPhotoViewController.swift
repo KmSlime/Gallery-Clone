@@ -28,7 +28,8 @@ class DetailPhotoViewController: UIViewController {
     }
     weak var galleryDelegate: GalleryCollectionViewDelegate?
     var beginIndex: IndexPath?
-
+    var beginImage: PHAsset?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMiniMapCollectionView()
@@ -38,12 +39,9 @@ class DetailPhotoViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let beginIndex = beginIndex {
-            mainCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-            miniCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-        }
+        super.viewDidAppear(false)
     }
-
+    
     private func setupMiniMapCollectionView() {
         miniCollectionView.delegate = self
         miniCollectionView.dataSource = self
@@ -77,9 +75,22 @@ class DetailPhotoViewController: UIViewController {
             allImageInGallery.enumerateObjects({ asset, index, stop in
                 self.assets.append(asset)
             })
+            beginImage = assets.first!
+            assets[0] = assets[beginIndex!.item]
             main_queue {
+                if let index = self.beginIndex?.item {
+                    self.beginImage = self.assets[index]
+                }
                 self.miniCollectionView.reloadData()
                 self.mainCollectionView.reloadData()
+                if let beginIndex = self.beginIndex {
+                    UIView.setAnimationsEnabled(false)
+                    self.mainCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                    self.miniCollectionView.scrollToItem(at: beginIndex, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                    self.assets[0] = self.beginImage!
+                    self.beginImage = nil
+                    UIView.setAnimationsEnabled(true)
+                }
             }
         }
     }
@@ -123,8 +134,7 @@ extension DetailPhotoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        mainCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        miniCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
